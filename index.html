@@ -60,25 +60,24 @@
             color: #64748b;
         }
 
-        /* الترقيم: منقول لأقصى اليسار لترك المساحة الأساسية للاسم والـ Checkbox */
-        .num { 
-            font-weight: bold; 
-            color: #ef4444; 
-            font-size: 1rem; 
-            margin-left: auto; /* يدفع الترقيم لليسار */
-            padding-right: 5px;
-            background: #141b24;
-            padding: 4px 10px;
-            border-radius: 20px;
-        }
+       /* الترقيم: تم حذف 'margin-right: auto' لكي لا يهرب لليسار ويظل ملتصقاً باليمين */
+.num { 
+    font-weight: bold; 
+    color: #ef4444; 
+    font-size: 1rem; 
+    background: #141b24;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: 12px; /* مسافة بين الرقم ومربع الصح الذي يليه */
+}
 
-        /* الاسم: مع إعطائه مساحة مريحة للقراءة */
-        .name-text { 
-            font-size: 1.2rem; 
-            font-weight: 600; 
-            color: #ffffff;
-            margin-right: 12px; /* مسافة بينه وبين الـ Checkbox */
-        }
+/* الاسم */
+.name-text { 
+    font-size: 1.2rem; 
+    font-weight: 600; 
+    color: #ffffff;
+    margin-right: 12px; /* مسافة تفصله عن مربع الصح قبلها */
+}
 
         /* تخصيص الـ Checkbox ليكون كبيراً وسهل الضغط ومموضعاً قبل الاسم مباشرة */
         .checkbox-container {
@@ -180,14 +179,16 @@
             characters.forEach((img, idx) => {
                 const cleanName = img.split('.')[0].replace(/[_-]/g, ' ');
                 // هنا الترتيب الجديد للهيكل: الـ Checkbox أولاً، ثم النص، ثم رقم الترتيب في اليسار
-                rowsHtml += `
-                <div class="name-row" id="row-${idx}" onclick="toggleRowViaClick(${idx})">
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="check-${idx}" onchange="toggleCheck(${idx}, this.checked)" onclick="event.stopPropagation();">
-                    </div>
-                    <div class="name-text">${cleanName}</div>
-                    <div class="num">${idx + 1}</div>
-                </div>`;
+               rowsHtml += `
+<div class="name-row" id="row-${idx}" onclick="toggleRowViaClick(${idx})">
+    <div class="num">${idx + 1}</div>
+    
+    <div class="checkbox-container">
+        <input type="checkbox" id="check-${idx}" onchange="toggleCheck(${idx}, this.checked)" onclick="event.stopPropagation();">
+    </div>
+    
+    <div class="name-text">${cleanName}</div>
+</div>`;
             });
             
             document.getElementById('leaderboardList').innerHTML = rowsHtml;
