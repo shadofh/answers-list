@@ -22,34 +22,92 @@
         </div>
 
     <script>
-        // دالة لتفكيك وفك ضغط ترتيب الأسماء القادم من الرابط
+        const characters = [
+            "سلطان_بن_سلمان.jpg", "سلفادور_دالي.jpg", "سمير_غانم.jpg", "صدام_حسين.jpg", 
+            "صهيب_قدس.jpg", "طلال_سام.jpg", "عادل_الجبير.jpg", "عبدالباسط_عبدالصمد.jpg", 
+            "عبدالحليم_حافظ.jpg", "عبدالرحمن_السديس.jpg", "عبدالرحمن_السعدي.jpg", 
+            "عبدالعزيز_بن_باز.jpg", "عبدالله_السويلم.jpg", "عبدالله_المطيري.jpg", 
+            "علي_المدفع.jpg", "عمر_المختار.jpg", "فايز_المالكي.jpg", "فلاديمير_بوتين.jpg", 
+            "كريستيانو_رونالدو.jpg", "ليوناردو_دي_كابريو.jpg", "ماجد_الشبل.jpg", 
+            "ماجد_عبدالله.jpg", "محمد_الزهراني.jpg", "محمد_علي_كلاي.jpg", "محمد_كنو.jpg", 
+            "محمد_هنيدي.jpg", "معمر_القذافي.jpg", "ناصر_القصبي.jpg", "نيكولا_تسلا.jpg", 
+            "نيل_أرمسترونغ.jpg", "نيلسون_مانديلا.jpg", "هاني_مقبل.jpg", "ويل_سميث.jpg", 
+            "ياسر_الدوسري.jpg", "ياسر_العظمة.jpg", "يوسف_حناوي.jpg", "أحمد_الشقيري.jpg", 
+            "أحمد_القحطاني.jpg", "أحمد_زويل.jpg", "أحمد_شوقي.jpg", "أحمد_ياسين.jpg", 
+            "أدولف_هتلر.jpg", "ألبرت_أينشتاين.jpg", "ألكسندر_غراهام_بيل.jpg", 
+            "إيمانويل_ماكرون.jpg", "بابلو_بيكاسو.jpg", "بدر_صالح.jpg", "بروس_لي.jpg", 
+            "بندر_مدخلي.jpg", "بيليه.jpg", "تشارلي_تشابلن.jpg", "ثنيان_خالد.jpg", 
+            "جاكي_شان.jpg", "جوزيف_ستالين.jpg", "حامد_الضبعان.jpg", "داوود_الشريان.jpg", 
+            "راشد_الشمراني.jpg", "سالم_الدوسري.jpg", "سامي_الجابر.jpg", "ستيف_جوبز.jpg", 
+            "ستيف_هارفي.jpg", "سعيد_العويران.jpg", "نايف_حمدان.jpg", "فيصل_آل_سعود.jpg",
+            "فهد_آل_سعود.jpg", "عبدالله_آل_سعود.jpg", "مهاتير_محمد.jpg","محمد_العثيمين.jpg",
+            "محمد_الألباني.jpg","غسان_كنفاني.jpg","قابوس_البوسعيدي.jpg","نجيب_محفوظ.jpg",
+            "أحمد_حلمي.jpg","عبدالله_السدحان.jpg","يوسف_الجراح.jpg","الوليد_بن_طلال.jpg",
+            "تشارلز_الثالث.jpg","أحمد_الدوسري.jpg","هيثم_خالد.jpg","زلاتان_إبراهيموفيتش.jpg",
+            "براء_بكري.jpg","محمد_الشهري.jpg","بينيتو_موسوليني.jpg","شاروخان.jpg",
+            "توماس_إديسون.jpg","كاظم_الساهر.jpg","عبدالله_المديفر.jpg","خالد_النفيسي.jpg",
+            "بابلو_إسكوبار.jpg","كيم_جونغ_أون.jpg","ما_دونغ_سوك.jpg","ياسين_بونو.jpg",
+            "يزيد_الراجحي.jpg","سعود_الفيصل.jpg","تشي_جيفارا.jpg","أحمد_الشرع.jpg",
+            "أنور_السادات.jpg","حسني_مبارك.jpg","محمد_الشلهوب.jpg","عبدالرحمن_بن_مساعد.jpg",
+            "عبدالله_السبع.jpg","طارق_الحبيب.jpg","حبيب_الحبيب.jpg","تميم_آل_ثاني.jpg",
+            "رونالدينيو.jpg","فيودر_داستايوفسكي.jpg","طه_حسين.jpg","طارق_العلي.jpg",
+            "عبدالمجيد_عبدالله.jpg","جبران_خليل_جبران.jpg","محمود_درويش.jpg","نزار_قباني.jpg",
+            "مايكل_جوردن.jpg","مايكل_جاكسون.jpg","محمد_البيز.jpg","مارك_زوكربيرغ.jpg",
+            "كريم_بنزيما.jpg","زين_الدين_زيدان.jpg","مارتن_لوثر_كينج.jpg","فيصل_القاسم.jpg",
+            "رياض_محرز.jpg","غازي_القصيبي.jpg","جمال_عبدالناصر.jpg","عثمان_طه.jpg","علي_الطنطاوي.jpg",
+            "فاروق_الأول.jpg","مالكوم_إكس.jpg","والت_ديزني.jpg","براد_بيت.jpg","جوني_ديب.jpg",
+            "سيلفستر_ستالون.jpg","جون_ترافولتا.jpg","جون_سينا.jpg","دوين_جونسون.jpg","فين_ديزل.jpg",
+            "حفيظ_دراجي.jpg","عصام_شوالي.jpg","رؤوف_خليف.jpg","فارس_عوض.jpg","عابد_فهد.jpg",
+            "سعد_الفرج.jpg","غانم_الصالح.jpg","عمر_الشريف.jpg","دريد_لحام.jpg","يوسف_الثنيان.jpg",
+            "حسين_النجار.jpg","بكر_الشدي.jpg","عبدالله_الجاسر.jpg","عمر_الخطيب.jpg","عبدالرحمن_السميط.jpg",
+            "عبدالمجيد_تبون.jpg","فيصل_بن_فرحان.jpg","هاياو_ميازاكي.jpg","هيديو_كوجيما.jpg","جهاد_حطاب.jpg",
+            "سعود_الشريم.jpg","ياسر_القحطاني.jpg","قاسم_الحتو.jpg","هزاع_البلوشي.jpg","بندر_بليلة.jpg",
+            "عبدالله_الربيعة.jpg","عبدالرحمن_العقل.jpg","محمد_المنجد.jpg","راكان_الشايع.jpg","خلف_بن_هذال.jpg",
+            "بدر_بن_عبدالمحسن.jpg","سعد_بن_جدلان.jpg","مصلح_بن_عياد.jpg","خالد_عبدالرحمن.jpg",
+            "عبدالله_النفيسي.jpg","علي_عبدالله_صالح.jpg","صباح_الأحمد.jpg","ميشيل_عون.jpg","توفيق_الربيعة.jpg",
+            "حبيب_نورمحمدوف.jpg","روان_اتكينسون.jpg","أبراهام_لينكولن.jpg","أحمد_زكي_يماني.jpg",
+            "آل_باتشينو.jpg","حسن_البلام.jpg","فهد_الحيان.jpg","جورج_قرداحي.jpg","وليد_الفراج.jpg",
+            "صالح_العريض.jpg","كيليان_مبابي.jpg","لامين_يمال.jpg","أشرف_حكيمي.jpg","روبرت_ليفاندوفسكي.jpg",
+            "إرلنج_هالاند.jpg","فان_غوخ.jpg","عبدالرزاق_البدر.jpg","حميدان_التركي.jpg","محمد_صديق_المنشاوي.jpg",
+            "عبدالسلام_الشويعر.jpg","فيدل_كاسترو.jpg","روبرت_دي_نيرو.jpg","مايك_تايسون.jpg","توباك_شاكور.jpg",
+            "محمد_العويس.jpg","رجب طيب إردوغان.jpg","بوب_روس.jpg","حمود_الخضر.jpg","محمد_أبوتريكة.jpg",
+            "ماهر_المعيقلي.jpg","جوردن_رامزي.jpg","خالد_الفيصل.jpg","محمود_الحصري.jpg","محمد_أيوب.jpg",
+            "عبدالعزيز_الصميلي.jpg","كلود_مونيه.jpg"
+        ];
+
+        // دالة التوليد العشوائي المعتمد على رمز الجلسة الثابت (Seeded Random)
+        function seededRandom(seed) {
+            let x = Math.sin(seed++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function loadCurrentOrder() {
             const urlParams = new URLSearchParams(window.location.search);
-            const compressedData = urlParams.get('list');
+            const sessionSeed = parseInt(urlParams.get('session'));
 
-            if (!compressedData) {
-                document.getElementById('leaderboardList').innerHTML = "<div style='text-align:center; padding:20px;'>عذراً، الرابط لا يحتوي على بيانات الجلسة!</div>";
+            if (!sessionSeed) {
+                document.getElementById('leaderboardList').innerHTML = "<div style='text-align:center; padding:20px;'>عذراً، الرابط لا يحتوي على رمز الجلسة!</div>";
                 return;
             }
 
-            // فك النص المشفر إلى مصفوفة أسماء مجدداً
-            try {
-                const cleanNamesList = JSON.parse(decodeURIComponent(atob(compressedData)));
-                let rowsHtml = '';
-                
-                cleanNamesList.forEach((name, idx) => {
-                    rowsHtml += `
-                    <div class="name-row" id="row-${idx}">
-                        <div class="num">${idx + 1}</div>
-                        <div class="name-text">${name}</div>
-                        <input type="checkbox" onchange="toggleCheck(${idx}, this.checked)">
-                    </div>`;
-                });
-                
-                document.getElementById('leaderboardList').innerHTML = rowsHtml;
-            } catch (e) {
-                document.getElementById('leaderboardList').innerHTML = "<div style='text-align:center; padding:20px; color:#e74c3c;'>حدث خطأ أثناء معالجة ترتيب الأسماء!</div>";
+            // خلط المصفوفة بناءً على رمز الجلسة المستقبل من الرابط بالملي ثانية
+            let currentSeed = sessionSeed;
+            if(characters.length > 0) {
+                characters.sort(() => seededRandom(currentSeed++) - 0.5);
             }
+
+            let rowsHtml = '';
+            characters.forEach((img, idx) => {
+                const cleanName = img.split('.')[0].replace(/[_-]/g, ' ');
+                rowsHtml += `
+                <div class="name-row" id="row-${idx}">
+                    <div class="num">${idx + 1}</div>
+                    <div class="name-text">${cleanName}</div>
+                    <input type="checkbox" onchange="toggleCheck(${idx}, this.checked)">
+                </div>`;
+            });
+            
+            document.getElementById('leaderboardList').innerHTML = rowsHtml;
         }
 
         function toggleCheck(idx, isChecked) {
@@ -58,7 +116,6 @@
             else row.classList.remove('checked');
         }
 
-        // تشغيل البناء فور قراءة الجوال للرابط
         window.onload = loadCurrentOrder;
     </script>
 </body>
