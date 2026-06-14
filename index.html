@@ -2,26 +2,108 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لوحة الاجابات للجوال</title>
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background: #1a252f; color: white; padding: 20px; margin: 0; }
-        h2 { text-align: center; color: #f1c40f; margin-bottom: 25px; border-bottom: 2px solid #34495e; padding-bottom: 12px; }
-        .list-container { display: flex; flex-direction: column; gap: 10px; max-width: 600px; margin: 0 auto; }
-        .name-row { display: flex; align-items: center; background: #2c3e50; padding: 14px 18px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: all 0.2s; }
-        .name-row.checked { background: #34495e; opacity: 0.35; }
-        .name-row.checked .name-text { text-decoration: line-through; color: #bdc3c7; }
-        .num { font-weight: bold; color: #e74c3c; min-width: 35px; font-size: 1.1rem; }
-        .name-text { flex-grow: 1; font-size: 1.15rem; font-weight: 500; }
-        input[type="checkbox"] { width: 24px; height: 24px; cursor: pointer; accent-color: #2ecc71; }
+        /* تصميم عصري ومريح للعين في الإضاءة المختلفة */
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            background: #12181f; 
+            color: #e2e8f0; 
+            padding: 15px; 
+            margin: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        
+        h2 { 
+            text-align: center; 
+            color: #f1c40f; 
+            margin: 10px 0 20px 0; 
+            font-size: 1.4rem;
+            border-bottom: 2px solid #2c3e50; 
+            padding-bottom: 12px; 
+        }
+
+        /* حاوية مرنة تتناسب مع مقاس أي شاشة جوال */
+        .list-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            max-width: 100%; 
+            margin: 0 auto; 
+        }
+
+        /* صف الاسم: تم جعل الارتفاع مناسباً للمس باليد بسهولة (Fat-finger friendly) */
+        .name-row { 
+            display: flex; 
+            align-items: center; 
+            background: #1e293b; 
+            padding: 16px 14px; 
+            border-radius: 12px; 
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2); 
+            transition: all 0.2s ease; 
+            border: 1px solid #2d3748;
+            cursor: pointer;
+        }
+
+        /* عند التشطيب: تخفيف البريق وعمل خط على الاسم */
+        .name-row.checked { 
+            background: #1a222f; 
+            border-color: #232d3f;
+            opacity: 0.3; 
+        }
+        .name-row.checked .name-text { 
+            text-decoration: line-through; 
+            color: #94a3b8; 
+        }
+        .name-row.checked .num {
+            color: #64748b;
+        }
+
+        /* الترقيم: منقول لأقصى اليسار لترك المساحة الأساسية للاسم والـ Checkbox */
+        .num { 
+            font-weight: bold; 
+            color: #ef4444; 
+            font-size: 1rem; 
+            margin-right: auto; /* يدفع الترقيم لليسار */
+            padding-right: 5px;
+            background: #141b24;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        /* الاسم: مع إعطائه مساحة مريحة للقراءة */
+        .name-text { 
+            font-size: 1.2rem; 
+            font-weight: 600; 
+            color: #ffffff;
+            margin-right: 12px; /* مسافة بينه وبين الـ Checkbox */
+        }
+
+        /* تخصيص الـ Checkbox ليكون كبيراً وسهل الضغط ومموضعاً قبل الاسم مباشرة */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        input[type="checkbox"] { 
+            width: 26px; 
+            height: 26px; 
+            cursor: pointer; 
+            accent-color: #10b981; 
+            margin: 0;
+        }
     </style>
 </head>
 <body>
+
     <h2>قائمة الاجابات الحالية</h2>
     <div class="list-container" id="leaderboardList">
         </div>
 
     <script>
+        // المصفوفة الثابتة الـ 214 اسماً بالترتيب الأصلي
         const characters = [
             "سلطان_بن_سلمان.jpg", "سلفادور_دالي.jpg", "سمير_غانم.jpg", "صدام_حسين.jpg", 
             "صهيب_قدس.jpg", "طلال_سام.jpg", "عادل_الجبير.jpg", "عبدالباسط_عبدالصمد.jpg", 
@@ -69,13 +151,12 @@
             "آل_باتشينو.jpg","حسن_البلام.jpg","فهد_الحيان.jpg","جورج_قرداحي.jpg","وليد_الفراج.jpg",
             "صالح_العريض.jpg","كيليان_مبابي.jpg","لامين_يمال.jpg","أشرف_حكيمي.jpg","روبرت_ليفاندوفسكي.jpg",
             "إرلنج_هالاند.jpg","فان_غوخ.jpg","عبدالرزاق_البدر.jpg","حميدان_التركي.jpg","محمد_صديق_المنشاوي.jpg",
-            "عبدالسلام_الشويعر.jpg","فيدل_كاسترو.jpg","روبرت_دي_نيرو.jpg","مايك_تايسون.jpg","توباك_شاكور.jpg",
-            "محمد_العويس.jpg","رجب طيب إردوغان.jpg","بوب_روس.jpg","حمود_الخضر.jpg","محمد_أبوتريكة.jpg",
+            "عبدسلام_الشويعر.jpg","فيدل_كاسترو.jpg","روبرت_دي_نيرو.jpg","مايك_تايسون.jpg","توباك_شاكور.jpg",
+            "محمد_العويس.jpg","رجب_طيب_إردوغان.jpg","بوب_روس.jpg","حمود_الخضر.jpg","محمد_أبوتريكة.jpg",
             "ماهر_المعيقلي.jpg","جوردن_رامزي.jpg","خالد_الفيصل.jpg","محمود_الحصري.jpg","محمد_أيوب.jpg",
             "عبدالعزيز_الصميلي.jpg","كلود_مونيه.jpg"
         ];
 
-        // دالة التوليد العشوائي المعتمد على رمز الجلسة الثابت (Seeded Random)
         function seededRandom(seed) {
             let x = Math.sin(seed++) * 10000;
             return x - Math.floor(x);
@@ -90,7 +171,6 @@
                 return;
             }
 
-            // خلط المصفوفة بناءً على رمز الجلسة المستقبل من الرابط بالملي ثانية
             let currentSeed = sessionSeed;
             if(characters.length > 0) {
                 characters.sort(() => seededRandom(currentSeed++) - 0.5);
@@ -99,11 +179,14 @@
             let rowsHtml = '';
             characters.forEach((img, idx) => {
                 const cleanName = img.split('.')[0].replace(/[_-]/g, ' ');
+                // هنا الترتيب الجديد للهيكل: الـ Checkbox أولاً، ثم النص، ثم رقم الترتيب في اليسار
                 rowsHtml += `
-                <div class="name-row" id="row-${idx}">
-                    <div class="num">${idx + 1}</div>
+                <div class="name-row" id="row-${idx}" onclick="toggleRowViaClick(${idx})">
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="check-${idx}" onchange="toggleCheck(${idx}, this.checked)" onclick="event.stopPropagation();">
+                    </div>
                     <div class="name-text">${cleanName}</div>
-                    <input type="checkbox" onchange="toggleCheck(${idx}, this.checked)">
+                    <div class="num">${idx + 1}</div>
                 </div>`;
             });
             
@@ -112,8 +195,17 @@
 
         function toggleCheck(idx, isChecked) {
             const row = document.getElementById('row-' + idx);
+            const checkbox = document.getElementById('check-' + idx);
+            checkbox.checked = isChecked;
+            
             if(isChecked) row.classList.add('checked');
             else row.classList.remove('checked');
+        }
+
+        // ميزة مريحة للجوال: الضغط في أي مكان على الصف يشطب الاسم مباشرة دون الحاجة لضغط المربع بدقة
+        function toggleRowViaClick(idx) {
+            const checkbox = document.getElementById('check-' + idx);
+            toggleCheck(idx, !checkbox.checked);
         }
 
         window.onload = loadCurrentOrder;
