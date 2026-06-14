@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الاجابات للجوال</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background: #1a252f; color: white; padding: 20px; margin: 0; }
+        h2 { text-align: center; color: #f1c40f; margin-bottom: 25px; border-bottom: 2px solid #34495e; padding-bottom: 12px; }
+        .list-container { display: flex; flex-direction: column; gap: 10px; max-width: 600px; margin: 0 auto; }
+        .name-row { display: flex; align-items: center; background: #2c3e50; padding: 14px 18px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.15); transition: all 0.2s; }
+        .name-row.checked { background: #34495e; opacity: 0.35; }
+        .name-row.checked .name-text { text-decoration: line-through; color: #bdc3c7; }
+        .num { font-weight: bold; color: #e74c3c; min-width: 35px; font-size: 1.1rem; }
+        .name-text { flex-grow: 1; font-size: 1.15rem; font-weight: 500; }
+        input[type="checkbox"] { width: 24px; height: 24px; cursor: pointer; accent-color: #2ecc71; }
+    </style>
+</head>
+<body>
+    <h2>قائمة الاجابات الحالية</h2>
+    <div class="list-container" id="leaderboardList">
+        </div>
+
+    <script>
+        // دالة لتفكيك وفك ضغط ترتيب الأسماء القادم من الرابط
+        function loadCurrentOrder() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const compressedData = urlParams.get('list');
+
+            if (!compressedData) {
+                document.getElementById('leaderboardList').innerHTML = "<div style='text-align:center; padding:20px;'>عذراً، الرابط لا يحتوي على بيانات الجلسة!</div>";
+                return;
+            }
+
+            // فك النص المشفر إلى مصفوفة أسماء مجدداً
+            try {
+                const cleanNamesList = JSON.parse(decodeURIComponent(atob(compressedData)));
+                let rowsHtml = '';
+                
+                cleanNamesList.forEach((name, idx) => {
+                    rowsHtml += `
+                    <div class="name-row" id="row-${idx}">
+                        <div class="num">${idx + 1}</div>
+                        <div class="name-text">${name}</div>
+                        <input type="checkbox" onchange="toggleCheck(${idx}, this.checked)">
+                    </div>`;
+                });
+                
+                document.getElementById('leaderboardList').innerHTML = rowsHtml;
+            } catch (e) {
+                document.getElementById('leaderboardList').innerHTML = "<div style='text-align:center; padding:20px; color:#e74c3c;'>حدث خطأ أثناء معالجة ترتيب الأسماء!</div>";
+            }
+        }
+
+        function toggleCheck(idx, isChecked) {
+            const row = document.getElementById('row-' + idx);
+            if(isChecked) row.classList.add('checked');
+            else row.classList.remove('checked');
+        }
+
+        // تشغيل البناء فور قراءة الجوال للرابط
+        window.onload = loadCurrentOrder;
+    </script>
+</body>
+</html>
