@@ -4,96 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>لوحة الاجابات</title>
-    <style>
-        /* تصميم عصري ومريح للعين في الإضاءة المختلفة */
-        body { 
-            font-family: system-ui, -apple-system, sans-serif; 
-            background: #12181f; 
-            color: #e2e8f0; 
-            padding: 15px; 
-            margin: 0; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        h2 { 
-            text-align: center; 
-            color: #f1c40f; 
-            margin: 10px 0 20px 0; 
-            font-size: 1.4rem;
-            border-bottom: 2px solid #2c3e50; 
-            padding-bottom: 12px; 
-        }
+   <style>
+    /* 1. السطر السحري لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
 
-        /* حاوية مرنة تتناسب مع مقاس أي شاشة جوال */
-        .list-container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            max-width: 100%; 
-            margin: 0 auto; 
-        }
+    /* تصميم عصري ومريح للعين في الإضاءة المختلفة */
+    body { 
+        font-family: system-ui, -apple-system, sans-serif; 
+        background: #12181f; 
+        color: #e2e8f0; 
+        padding: 15px; 
+        margin: 0; 
+        direction: rtl; /* لضمان قراءة العناصر من اليمين لليسار بشكل صحيح */
+        -webkit-tap-highlight-color: transparent; 
+    }
+    
+    h2 { 
+        text-align: center; 
+        color: #f1c40f; 
+        margin: 10px 0 20px 0; 
+        font-size: 1.4rem;
+        border-bottom: 2px solid #2c3e50; 
+        padding-bottom: 12px; 
+    }
 
-        /* صف الاسم: تم جعل الارتفاع مناسباً للمس باليد بسهولة (Fat-finger friendly) */
-        .name-row { 
-            display: flex; 
-            align-items: center; 
-            background: #1e293b; 
-            padding: 16px 14px; 
-            border-radius: 12px; 
-            box-shadow: 0 3px 6px rgba(0,0,0,0.2); 
-            transition: all 0.2s ease; 
-            border: 1px solid #2d3748;
-            cursor: pointer;
-        }
+    /* حاوية مرنة تتناسب مع مقاس أي شاشة جوال */
+    .list-container { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 12px; 
+        width: 100%; /* تضمن أن تملأ الحاوية عرض الجوال بالكامل */
+        max-width: 600px; /* تعطي مظهراً متناسقاً لو فُتحت من تابلت أو شاشة أعرض قليلًا */
+        margin: 0 auto; 
+    }
 
-        /* عند التشطيب: تخفيف البريق وعمل خط على الاسم */
-        .name-row.checked { 
-            background: #1a222f; 
-            border-color: #232d3f;
-            opacity: 0.3; 
-        }
-        .name-row.checked .name-text { 
-            text-decoration: line-through; 
-            color: #94a3b8; 
-        }
-        .name-row.checked .num {
-            color: #64748b;
-        }
+    /* صف الاسم: تم جعل الارتفاع مناسباً للمس باليد بسهولة */
+    .name-row { 
+        display: flex; 
+        align-items: center; 
+        background: #1e293b; 
+        padding: 16px 14px; 
+        border-radius: 12px; 
+        box-shadow: 0 3px 6px rgba(0,0,0,0.2); 
+        transition: all 0.2s ease; 
+        border: 1px solid #2d3748;
+        cursor: pointer;
+        width: 100%; /* تجعل كل صف يمتد بكامل عرض الحاوية */
+    }
 
-       /* الترقيم: تم حذف 'margin-right: auto' لكي لا يهرب لليسار ويظل ملتصقاً باليمين */
-.num { 
-    font-weight: bold; 
-    color: #ef4444; 
-    font-size: 1rem; 
-    background: #141b24;
-    padding: 4px 10px;
-    border-radius: 20px;
-    margin-left: 12px; /* مسافة بين الرقم ومربع الصح الذي يليه */
-}
+    /* عند التشطيب: تخفيف البريق وعمل خط على الاسم */
+    .name-row.checked { 
+        background: #1a222f; 
+        border-color: #232d3f;
+        opacity: 0.3; 
+    }
+    .name-row.checked .name-text { 
+        text-decoration: line-through; 
+        color: #94a3b8; 
+    }
+    .name-row.checked .num {
+        color: #64748b;
+    }
 
-/* الاسم */
-.name-text { 
-    font-size: 1.2rem; 
-    font-weight: 600; 
-    color: #ffffff;
-    margin-right: 12px; /* مسافة تفصله عن مربع الصح قبلها */
-}
+    /* الترقيم */
+    .num { 
+        font-weight: bold; 
+        color: #ef4444; 
+        font-size: 1rem; 
+        background: #141b24;
+        padding: 4px 10px;
+        border-radius: 20px;
+        margin-left: 12px; 
+    }
 
-        /* تخصيص الـ Checkbox ليكون كبيراً وسهل الضغط ومموضعاً قبل الاسم مباشرة */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        input[type="checkbox"] { 
-            width: 26px; 
-            height: 26px; 
-            cursor: pointer; 
-            accent-color: #10b981; 
-            margin: 0;
-        }
-    </style>
+    /* الاسم */
+    .name-text { 
+        font-size: 1.2rem; 
+        font-weight: 600; 
+        color: #ffffff;
+        margin-right: 12px; 
+    }
+
+    /* تخصيص الـ Checkbox */
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    input[type="checkbox"] { 
+        width: 26px; 
+        height: 26px; 
+        cursor: pointer; 
+        accent-color: #10b981; 
+        margin: 0;
+    }
+</style>
 </head>
 <body>
 
