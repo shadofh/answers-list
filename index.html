@@ -2,10 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>لوحة الاجابات</title>
    <style>
-    /* السطر السحري لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
+    /* لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
     *, *::before, *::after {
         box-sizing: border-box;
     }
@@ -17,7 +17,7 @@
         color: #e2e8f0; 
         padding: 15px; 
         margin: 0; 
-        direction: rtl; /* لضمان قراءة العناصر من اليمين لليسار بشكل صحيح */
+        direction: rtl; 
         -webkit-tap-highlight-color: transparent; 
     }
     
@@ -25,27 +25,27 @@
         text-align: center; 
         color: #f1c40f; 
         margin: 15px 0 25px 0; 
-        font-size: 1.8rem; /* تم تكبير عنوان الصفحة */
+        font-size: 1.8rem; 
         border-bottom: 2px solid #2c3e50; 
         padding-bottom: 12px; 
     }
 
-    /* حاوية مرنة تتناسب مع مقاس أي شاشة جوال */
+    /* حاوية مرنة تتناسب مع مقاس الجوال، وفي اللابتوب تظل في المنتصف بعرض أنيق */
     .list-container { 
         display: flex; 
         flex-direction: column; 
-        gap: 14px; /* زيادة المسافة بين الأسطر */
+        gap: 14px; 
         width: 100%; 
         max-width: 600px; 
         margin: 0 auto; 
     }
 
-    /* صف الاسم: تم جعل الارتفاع مناسباً للمس باليد بسهولة */
+    /* صف الاسم: مساحات داخلية كبيرة ومريحة للمس باليد */
     .name-row { 
         display: flex; 
         align-items: center; 
         background: #1e293b; 
-        padding: 20px 16px; /* زيادة المساحة الداخلية ليعطي حجماً أكبر على الجوال */
+        padding: 22px 16px; /* زيادة الطول الداخلي لبروز المستطيل */
         border-radius: 14px; 
         box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
         transition: all 0.2s ease; 
@@ -68,29 +68,29 @@
         color: #64748b;
     }
 
-    /* الترقيم: تكبير حجم الدائرة والخط داخلها */
+    /* الترقيم: تكبير الدائرة والخط ليكون واضحاً */
     .num { 
         font-weight: bold; 
         color: #ef4444; 
-        font-size: 1.2rem; /* تكبير خط الرقم */
+        font-size: 1.3rem; /* تكبير حجم الرقم */
         background: #141b24;
-        padding: 6px 14px; /* توسيع خلفية الرقم */
+        padding: 6px 14px; 
         border-radius: 20px;
         margin-left: 15px; 
-        min-width: 45px; /* ضمان بقاء الدائرة متناسقة */
+        min-width: 50px; 
         text-align: center;
     }
 
-    /* الاسم: تم تكبيره بشكل ملحوظ ليصبح واضحاً جداً للقائد */
+    /* الاسم: تكبير الخط بشكل ملحوظ ليصبح واضحاً جداً للقائد من الجوال */
     .name-text { 
-        font-size: 1.4rem; /* تكبير خط اسم الشخصية بشكل بارز */
-        font-weight: 700; /* زيادة سماكة الخط */
+        font-size: 1.5rem; /* خط كبير جداً وبارز لسهولة القراءة */
+        font-weight: 700; 
         color: #ffffff;
-        margin-right: 15px; 
-        flex-grow: 1; /* يجعل النص يأخذ المساحة المتاحة ويدفع الـ Checkbox للطرف */
+        margin-left: 15px; 
+        flex-grow: 1; /* يجعل النص يدفع الـ Checkbox إلى أقصى اليسار تلقائياً */
     }
 
-    /* تخصيص الـ Checkbox ليصبح كبيراً وملائماً للخط الجديد */
+    /* تخصيص حاوية الـ Checkbox في أقصى اليسار */
     .checkbox-container {
         display: flex;
         align-items: center;
@@ -98,8 +98,8 @@
     }
     
     input[type="checkbox"] { 
-        width: 30px; /* تكبير المربع ليتناسب مع الخط الكبير */
-        height: 30px; 
+        width: 32px; /* تكبير المربع ليتناسب مع الخط والضغط السريع */
+        height: 32px; 
         cursor: pointer; 
         accent-color: #10b981; 
         margin: 0;
@@ -109,11 +109,9 @@
 <body>
 
     <h2>قائمة الاجابات الحالية</h2>
-    <div class="list-container" id="leaderboardList">
-        </div>
+    <div class="list-container" id="leaderboardList"></div>
 
     <script>
-        // المصفوفة الثابتة الـ 214 اسماً بالترتيب الأصلي
         const characters = [
             "سلطان_بن_سلمان.jpg", "سلفادور_دالي.jpg", "سمير_غانم.jpg", "صدام_حسين.jpg", 
             "صهيب_قدس.jpg", "طلال_سام.jpg", "عادل_الجبير.jpg", "عبدالباسط_عبدالصمد.jpg", 
@@ -130,7 +128,7 @@
             "إيمانويل_ماكرون.jpg", "بابلو_بيكاسو.jpg", "بدر_صالح.jpg", "بروس_لي.jpg", 
             "بندر_مدخلي.jpg", "بيليه.jpg", "تشارلي_تشابلن.jpg", "ثنيان_خالد.jpg", 
             "جاكي_شان.jpg", "جوزيف_ستالين.jpg", "حامد_الضبعان.jpg", "داوود_الشريان.jpg", 
-            "راشد_الشمراني.jpg", "سالم_الدوسري.jpg", "سامي_الجابر.jpg", "ستيف_جوبز.jpg", 
+            "راشد_الشمراني.jpg", "sالم_الدوسري.jpg", "سامي_الجابر.jpg", "ستيف_جوبز.jpg", 
             "ستيف_هارفي.jpg", "سعيد_العويران.jpg", "نايف_حمدان.jpg", "فيصل_آل_سعود.jpg",
             "فهد_آل_سعود.jpg", "عبدالله_آل_سعود.jpg", "مهاتير_محمد.jpg","محمد_العثيمين.jpg",
             "محمد_الألباني.jpg","غسان_كنفاني.jpg","قابوس_البوسعيدي.jpg","نجيب_محفوظ.jpg",
@@ -150,7 +148,7 @@
             "فاروق_الأول.jpg","مالكوم_إكس.jpg","والت_ديزني.jpg","براد_بيت.jpg","جوني_ديب.jpg",
             "سيلفستر_ستالون.jpg","جون_ترافولتا.jpg","جون_سينا.jpg","دوين_جونسون.jpg","فين_ديزل.jpg",
             "حفيظ_دراجي.jpg","عصام_شوالي.jpg","رؤوف_خليف.jpg","فارس_عوض.jpg","عابد_فهد.jpg",
-            "سعد_الفرج.jpg","غانم_الصالح.jpg","عمر_الشريف.jpg","دريد_لحام.jpg","يوسف_الثنيان.jpg",
+            "sعد_الفرج.jpg","غانم_الصالح.jpg","عمر_الشريف.jpg","دريد_لحام.jpg","يوسف_الثنيان.jpg",
             "حسين_النجار.jpg","بكر_الشدي.jpg","عبدالله_الجاسر.jpg","عمر_الخطيب.jpg","عبدالرحمن_السميط.jpg",
             "عبدالمجيد_تبون.jpg","فيصل_بن_فرحان.jpg","هاياو_ميازاكي.jpg","هيديو_كوجيما.jpg","جهاد_حطاب.jpg",
             "سعود_الشريم.jpg","ياسر_القحطاني.jpg","قاسم_الحتو.jpg","هزاع_البلوشي.jpg","بندر_بليلة.jpg",
@@ -189,17 +187,18 @@
             let rowsHtml = '';
             characters.forEach((img, idx) => {
                 const cleanName = img.split('.')[0].replace(/[_-]/g, ' ');
-                // هنا الترتيب الجديد للهيكل: الـ Checkbox أولاً، ثم النص، ثم رقم الترتيب في اليسار
-               rowsHtml += `
-<div class="name-row" id="row-${idx}" onclick="toggleRowViaClick(${idx})">
-    <div class="num">${idx + 1}</div>
-    
-    <div class="checkbox-container">
-        <input type="checkbox" id="check-${idx}" onchange="toggleCheck(${idx}, this.checked)" onclick="event.stopPropagation();">
-    </div>
-    
-    <div class="name-text">${cleanName}</div>
-</div>`;
+                
+                // تم تعديل ترتيب الهيكل هنا: الرقم باليمين، ثم النص يأخذ المنتصف، ثم الـ Checkbox باليسار تماماً
+                rowsHtml += `
+                <div class="name-row" id="row-${idx}" onclick="toggleRowViaClick(${idx})">
+                    <div class="num">${idx + 1}</div>
+                    
+                    <div class="name-text">${cleanName}</div>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="check-${idx}" onchange="toggleCheck(${idx}, this.checked)" onclick="event.stopPropagation();">
+                    </div>
+                </div>`;
             });
             
             document.getElementById('leaderboardList').innerHTML = rowsHtml;
@@ -214,7 +213,6 @@
             else row.classList.remove('checked');
         }
 
-        // ميزة مريحة للجوال: الضغط في أي مكان على الصف يشطب الاسم مباشرة دون الحاجة لضغط المربع بدقة
         function toggleRowViaClick(idx) {
             const checkbox = document.getElementById('check-' + idx);
             toggleCheck(idx, !checkbox.checked);
