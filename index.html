@@ -3,104 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة الإجابات</title>
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+    <title>لوحة الاجابات</title>
+   <style>
+    /* السطر السحري لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
 
-        body { 
-            font-family: system-ui, -apple-system, sans-serif; 
-            background: #12181f; 
-            color: #e2e8f0; 
-            padding: 15px; 
-            margin: 0; 
-            direction: rtl;
-            -webkit-tap-highlight-color: transparent; 
-        }
-        
-        h2 { 
-            text-align: center; 
-            color: #f1c40f; 
-            margin: 15px 0 25px 0; 
-            font-size: 1.8rem; 
-            border-bottom: 2px solid #2c3e50; 
-            padding-bottom: 12px; 
-        }
+    /* تصميم عصري ومريح للعين في الإضاءة المختلفة */
+    body { 
+        font-family: system-ui, -apple-system, sans-serif; 
+        background: #12181f; 
+        color: #e2e8f0; 
+        padding: 15px; 
+        margin: 0; 
+        direction: rtl; /* لضمان قراءة العناصر من اليمين لليسار بشكل صحيح */
+        -webkit-tap-highlight-color: transparent; 
+    }
+    
+    h2 { 
+        text-align: center; 
+        color: #f1c40f; 
+        margin: 15px 0 25px 0; 
+        font-size: 1.8rem; /* تم تكبير عنوان الصفحة */
+        border-bottom: 2px solid #2c3e50; 
+        padding-bottom: 12px; 
+    }
 
-        /* تغيير اسم الكلاس إلى main-wrapper لإجبار المتصفح على التحديث */
-        .main-wrapper { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 15px; 
-            width: 100%; 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
+    /* حاوية مرنة تتناسب مع مقاس أي شاشة جوال */
+    .list-container { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 14px; /* زيادة المسافة بين الأسطر */
+        width: 100%; 
+        max-width: 600px; 
+        margin: 0 auto; 
+    }
 
-        /* تغيير اسم الكلاس إلى item-row بأحجام كبيرة وواضحة جداً */
-        .item-row { 
-            display: flex; 
-            align-items: center; 
-            background: #1e293b; 
-            padding: 22px 18px; /* مساحة داخلية كبيرة لبروز السطر */
-            border-radius: 14px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
-            transition: all 0.2s ease; 
-            border: 1px solid #2d3748;
-            cursor: pointer;
-            width: 100%; 
-        }
+    /* صف الاسم: تم جعل الارتفاع مناسباً للمس باليد بسهولة */
+    .name-row { 
+        display: flex; 
+        align-items: center; 
+        background: #1e293b; 
+        padding: 20px 16px; /* زيادة المساحة الداخلية ليعطي حجماً أكبر على الجوال */
+        border-radius: 14px; 
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
+        transition: all 0.2s ease; 
+        border: 1px solid #2d3748;
+        cursor: pointer;
+        width: 100%; 
+    }
 
-        .item-row.checked { 
-            background: #1a222f; 
-            border-color: #232d3f;
-            opacity: 0.3; 
-        }
-        .item-row.checked .display-text { 
-            text-decoration: line-through; 
-            color: #94a3b8; 
-        }
-        .item-row.checked .badge-num {
-            color: #64748b;
-        }
+    /* عند التشطيب: تخفيف البريق وعمل خط على الاسم */
+    .name-row.checked { 
+        background: #1a222f; 
+        border-color: #232d3f;
+        opacity: 0.3; 
+    }
+    .name-row.checked .name-text { 
+        text-decoration: line-through; 
+        color: #94a3b8; 
+    }
+    .name-row.checked .num {
+        color: #64748b;
+    }
 
-        /* تكبير حجم الرقم */
-        .badge-num { 
-            font-weight: bold; 
-            color: #ef4444; 
-            font-size: 1.3rem; 
-            background: #141b24;
-            padding: 6px 14px; 
-            border-radius: 20px;
-            margin-left: 15px; 
-            min-width: 50px; 
-            text-align: center;
-        }
+    /* الترقيم: تكبير حجم الدائرة والخط داخلها */
+    .num { 
+        font-weight: bold; 
+        color: #ef4444; 
+        font-size: 1.2rem; /* تكبير خط الرقم */
+        background: #141b24;
+        padding: 6px 14px; /* توسيع خلفية الرقم */
+        border-radius: 20px;
+        margin-left: 15px; 
+        min-width: 45px; /* ضمان بقاء الدائرة متناسقة */
+        text-align: center;
+    }
 
-        /* تكبير حجم اسم الشخصية ليصبح واضحاً ومريحاً جداً للعين */
-        .display-text { 
-            font-size: 1.5rem; /* خط كبير جداً وبارز */
-            font-weight: 700; 
-            color: #ffffff;
-            margin-right: 15px; 
-            flex-grow: 1; 
-        }
+    /* الاسم: تم تكبيره بشكل ملحوظ ليصبح واضحاً جداً للقائد */
+    .name-text { 
+        font-size: 1.4rem; /* تكبير خط اسم الشخصية بشكل بارز */
+        font-weight: 700; /* زيادة سماكة الخط */
+        color: #ffffff;
+        margin-right: 15px; 
+        flex-grow: 1; /* يجعل النص يأخذ المساحة المتاحة ويدفع الـ Checkbox للطرف */
+    }
 
-        .check-holder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        input[type="checkbox"] { 
-            width: 32px; /* مربع صح كبير ومريح للضغط */
-            height: 32px; 
-            cursor: pointer; 
-            accent-color: #10b981; 
-            margin: 0;
-        }
-    </style>
+    /* تخصيص الـ Checkbox ليصبح كبيراً وملائماً للخط الجديد */
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    input[type="checkbox"] { 
+        width: 30px; /* تكبير المربع ليتناسب مع الخط الكبير */
+        height: 30px; 
+        cursor: pointer; 
+        accent-color: #10b981; 
+        margin: 0;
+    }
+</style>
 </head>
 <body>
 
