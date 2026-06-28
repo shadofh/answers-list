@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة الاجابات</title>
    <style>
-    /* 1. السطر السحري لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
+    /* السطر السحري لضمان عدم خروج العناصر والحواشي عن أبعاد شاشة الجوال */
     *, *::before, *::after {
         box-sizing: border-box;
     }
@@ -24,8 +24,8 @@
     h2 { 
         text-align: center; 
         color: #f1c40f; 
-        margin: 10px 0 20px 0; 
-        font-size: 1.4rem;
+        margin: 15px 0 25px 0; 
+        font-size: 1.8rem; /* تم تكبير عنوان الصفحة */
         border-bottom: 2px solid #2c3e50; 
         padding-bottom: 12px; 
     }
@@ -34,9 +34,9 @@
     .list-container { 
         display: flex; 
         flex-direction: column; 
-        gap: 12px; 
-        width: 100%; /* تضمن أن تملأ الحاوية عرض الجوال بالكامل */
-        max-width: 600px; /* تعطي مظهراً متناسقاً لو فُتحت من تابلت أو شاشة أعرض قليلًا */
+        gap: 14px; /* زيادة المسافة بين الأسطر */
+        width: 100%; 
+        max-width: 600px; 
         margin: 0 auto; 
     }
 
@@ -45,13 +45,13 @@
         display: flex; 
         align-items: center; 
         background: #1e293b; 
-        padding: 16px 14px; 
-        border-radius: 12px; 
-        box-shadow: 0 3px 6px rgba(0,0,0,0.2); 
+        padding: 20px 16px; /* زيادة المساحة الداخلية ليعطي حجماً أكبر على الجوال */
+        border-radius: 14px; 
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
         transition: all 0.2s ease; 
         border: 1px solid #2d3748;
         cursor: pointer;
-        width: 100%; /* تجعل كل صف يمتد بكامل عرض الحاوية */
+        width: 100%; 
     }
 
     /* عند التشطيب: تخفيف البريق وعمل خط على الاسم */
@@ -68,26 +68,29 @@
         color: #64748b;
     }
 
-    /* الترقيم */
+    /* الترقيم: تكبير حجم الدائرة والخط داخلها */
     .num { 
         font-weight: bold; 
         color: #ef4444; 
-        font-size: 1rem; 
+        font-size: 1.2rem; /* تكبير خط الرقم */
         background: #141b24;
-        padding: 4px 10px;
+        padding: 6px 14px; /* توسيع خلفية الرقم */
         border-radius: 20px;
-        margin-left: 12px; 
+        margin-left: 15px; 
+        min-width: 45px; /* ضمان بقاء الدائرة متناسقة */
+        text-align: center;
     }
 
-    /* الاسم */
+    /* الاسم: تم تكبيره بشكل ملحوظ ليصبح واضحاً جداً للقائد */
     .name-text { 
-        font-size: 1.2rem; 
-        font-weight: 600; 
+        font-size: 1.4rem; /* تكبير خط اسم الشخصية بشكل بارز */
+        font-weight: 700; /* زيادة سماكة الخط */
         color: #ffffff;
-        margin-right: 12px; 
+        margin-right: 15px; 
+        flex-grow: 1; /* يجعل النص يأخذ المساحة المتاحة ويدفع الـ Checkbox للطرف */
     }
 
-    /* تخصيص الـ Checkbox */
+    /* تخصيص الـ Checkbox ليصبح كبيراً وملائماً للخط الجديد */
     .checkbox-container {
         display: flex;
         align-items: center;
@@ -95,8 +98,8 @@
     }
     
     input[type="checkbox"] { 
-        width: 26px; 
-        height: 26px; 
+        width: 30px; /* تكبير المربع ليتناسب مع الخط الكبير */
+        height: 30px; 
         cursor: pointer; 
         accent-color: #10b981; 
         margin: 0;
